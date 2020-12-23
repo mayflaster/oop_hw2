@@ -2,7 +2,6 @@ package homework2;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 /**
@@ -25,7 +24,7 @@ import java.util.Set;
  *   
  * </pre>
  **/
-public class Graph<Node extends Cloneable> implements Iterable<Node> /*,Comparable<Node> */{
+public class Graph<Node> implements Iterable<Node> /*,Comparable<Node> */{
 
     // RepInvariant:
     //      adjacencyList!= null
@@ -40,16 +39,17 @@ public class Graph<Node extends Cloneable> implements Iterable<Node> /*,Comparab
     }
 
 
-    //private final String name;
     private final Map<Node, Set<Node>> adjacencyList = new HashMap<>();
+    //private final String name;
     
-
-
+    
+    
 
     /**
      * CreateGraph graphName
      */
     // public Graph(String name){
+    //     if ( name==null ) return;
     //     this.name = name;
     // }
 
@@ -57,30 +57,43 @@ public class Graph<Node extends Cloneable> implements Iterable<Node> /*,Comparab
 
     /**
   	 * Adds a new node to the graph if not allready exists.
-     * @requires
+     * @requires immutable node
      * @effects 
      */
     public boolean addNode(Node node){
+        checkRep();
         if(node==null) return false;
-        adjacencyList.putIfAbsent(node.clone(), new HashSet<>());
-    }
-
-    public void addEdge (Node parentNote, Node childNode){
-        //TODO
+        adjacencyList.putIfAbsent(node, new HashSet<>());
+        checkRep();
+        return true;
     }
 
 
-    public List<Node> getNodes (){
-        //TODO
+
+    public boolean addEdge(Node parentNode, Node childNode){
+        checkRep();
+        if(parentNode==null && childNode==null) return false;
+        adjacencyList.get(parentNode).add(childNode);
+        checkRep();
+        return true;
     }
 
-    public List<Node> getChildren(){
-        //TODO
+
+
+    public Set<Node> getNodes(){
+        checkRep();
+        return ImmutableSet.copyOf(adjacencyList.keySet());
+        //fixme
     }
 
-    public List<Node> findShortestPath (List<Node> sourceNodes, List<Node> destNodes){
-        // TODO
+    public HashSet<Node> getChildren(){
+        checkRep();
+        return 
     }
+
+    // public List<Node> findShortestPath(List<Node> sourceNodes, List<Node> destNodes){
+    //     // TODO
+    // }
 
     public Iterator<Node> iterator(){
         //TODO
