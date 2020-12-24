@@ -1,11 +1,13 @@
 package homework2;
 
+import org.w3c.dom.Node;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-
+import java.util.Collections;
 
 /**
  * This class implements a testing driver which reads test scripts
@@ -15,7 +17,7 @@ public class TestDriver {
 
 	// String -> Graph: maps the names of graphs to the actual graph
 	// TODO: Parameterize the next line correctly.
-  	private final Map<String,Graph/*<E>*/> graphs = new HashMap<>();
+  	private final Map<String,Graph<WeightedNode>> graphs = new HashMap<>();
   	// String -> WeightedNode: maps the names of nodes to the actual node
   	private final Map<String,WeightedNode> nodes = new HashMap<>();
 	private final BufferedReader input;
@@ -109,10 +111,18 @@ public class TestDriver {
 
   	private void createGraph(String graphName) {
   		
-  		//TODO: Insert your code here.
-  		
-  		// graphs.put(graphName, ___);
-  		// output.println(...);
+
+		Graph<WeightedNode> graph = new Graph<WeightedNode>();
+  		if(graphs.putIfAbsent(graphName, graph) == null){
+  			output.println("graph " + graphName + " already exist");
+		}
+  		else {
+			output.println("created graph" + graphName);
+		}
+
+
+		//TODO:  graph already exist
+		// graphName empty/null
 
   	}
  
@@ -131,11 +141,18 @@ public class TestDriver {
 
  	private void createNode(String nodeName, String cost) {
 
- 		// TODO: Insert your code here.
- 		
- 		// nodes.put(nodeName, ___);
- 		// output.println(...);
- 		
+  		WeightedNode node = new WeightedNode(nodeName,Integer.parseInt(cost));
+		if (nodes.putIfAbsent(nodeName,node) == null){
+			output.println("node " + nodeName + "already exist");
+		}
+		else {
+			output.println("created node" + nodeName + "with cost" + cost );
+		}
+
+ 		// TODO:
+		// cost is not int or negative?
+		// node exist in the map?
+
   	}
 	
 
@@ -153,11 +170,23 @@ public class TestDriver {
 
   	private void addNode(String graphName, String nodeName) {
 
-  		// TODO: Insert your code here.
-  		 
-  		// ___ = graphs.get(graphName);
-  		// ___ = nodes.get(nodeName);
-  		// output.println(...);
+
+  		Graph<WeightedNode> g = graphs.get(graphName);
+		WeightedNode node = nodes.get(nodeName);
+		if ( g == null ) {
+			output.println("graph "+ graphName +" does not exist" );
+			return;
+		}
+		if ( node == null ) {
+			output.println("node" + nodeName + "does not exist" );
+			return;
+		}
+		g.addNode(node);
+		output.println("added node" + nodeName + "to" + g);
+
+  		// TODO: errors: graph/node not exist
+		// cant add node to the graph
+
   		
   	}
 
@@ -176,13 +205,17 @@ public class TestDriver {
 
 
 	private void addEdge(String graphName, String parentName, String childName) {
-		
-		// TODO: Insert your code here.
-		  
-		// ___ = graphs.get(graphName);
-		// ___ = nodes.get(parentName);
-		// ___ = nodes.get(childName);
-		// output.println(...);
+
+
+
+		Graph<WeightedNode> g = graphs.get(graphName);
+		WeightedNode parentNode = nodes.get(parentName);
+		WeightedNode childNode  = nodes.get(childName);
+		g.addEdge(parentNode,childNode);
+		output.println("added edge from"+ parentName + "to" + childName + "in" + graphName);
+
+		// TODO: errors: graph/node not exist in maps,
+		// one of the nodes does not exist
 
   	}
 
@@ -197,13 +230,36 @@ public class TestDriver {
     	listNodes(graphName);
   	}
 
+	private List<String> toStringList (Set <WeightedNode> nodes){
+  		List<String> sortedList = new ArrayList<>();
+  		for(WeightedNode n : nodes){
+				sortedList.add(n.getName());
+  		}
+  		Collections.sort(sortedList);
+  		return sortedList;
+	}
 
   	private void listNodes(String graphName) {
+
+		Graph<WeightedNode> g = graphs.get(graphName);
+		if (g==null){
+			output.println("graph"+ graphName +"does not exist" );
+			return;
+		}
+		Set<WeightedNode> gNodes = g.getNodes();
+
+		List<String> sortedList =toStringList(gNodes);
+
+		StringBuilder s = new StringBuilder(graphName + " contains");
+		for (String name: sortedList) {
+			s.append(" ");
+			s.append(name);
+		}
+		output.println(s);
+
   		
-  		// TODO: Insert your code here.
-  		   
-  		// ___ = graphs.get(graphName);
-  		// output.println(...);
+  		// TODO: g not exist ?
+
 
   	}
 
@@ -221,12 +277,27 @@ public class TestDriver {
 
 
   	private void listChildren(String graphName, String parentName) {
+		Graph<WeightedNode> g = graphs.get(graphName);
+		if (g==null){
+			output.println("graph "+ graphName +" does not exist" );
+			return;
+		}
+		WeightedNode parentNode = nodes.get(parentName);
+		if (parentNode==null){
+			output.println("node "+ parentName +" does not exist" );
+			return;
+		}
+		Set<WeightedNode> parentChildren= g.getChildren(parentNode);
+		List<String> sortedList =toStringList(parentChildren);
 
-  		// TODO: Insert your code here.
-  		    
-  		// ___ = graphs.get(graphName);
-  		// ___ = nodes.get(parentName);
-  		// output.println(...);
+		StringBuilder s = new StringBuilder( "the children of " + parentName + " in " + graphName + " are:" );
+		for (String name: sortedList) {
+			s.append(" ");
+			s.append(name);
+		}
+		output.println(s);
+		// TODO: graph/node not exist
+		// node not exist on graph
   		
   	}
 
@@ -271,12 +342,40 @@ public class TestDriver {
   	private void findPath(String graphName, List<String> sourceArgs,
   						  List<String> destArgs) {
   		
-  		// TODO: Insert your code here.
-  		   
-  		// ___ = graphs.get(graphName);
-  		// ___ = nodes.get(sourceArgs.get(i));
-  		// ___ = nodes.get(destArgs.get(i));
-  		// output.println(...);
+
+		Graph<WeightedNode> g = graphs.get(graphName);
+		if (g==null){
+			output.println("graph "+ graphName +" does not exist" );
+			return;
+		}
+		Set<WeightedNode> sourceNodes = new HashSet<>();
+		for (String s: sourceArgs) {
+			if(nodes.get(s) == null){
+				output.println("node "+ s +" does not exist" );
+				return;
+			}
+			sourceNodes.add(nodes.get(s));
+		}
+		Set<WeightedNode> destNodes = new HashSet<>();
+		for (String t: destArgs) {
+			if(nodes.get(t) == null){
+				output.println("node "+ t +" does not exist" );
+				return;
+			}
+			destNodes.add(nodes.get(t));
+		}
+		Set<WeightedNode> path = g.findShortestPath(sourceNodes,destNodes);; // probably will be list and not set!
+		StringBuilder s = new StringBuilder( "shortest path in " + graphName + ":");
+		for (WeightedNode n : path){
+			s.append(" ");
+			s.append(n.getName());
+		}
+		output.println(s);
+
+
+		// TODO: graph/source/dest not exist here
+		// sources/dests not exist in the graph
+		// some problem in path..
 		
   	}
 

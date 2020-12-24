@@ -23,7 +23,7 @@ import java.util.Set;
  * <pre>
  *  adjacencyList : a dictionary in which the Key is a uniqe vertex V of the graph.
  *  the value is a collection of all the vertices U such that the edge V->U exists.
- *  
+ *
  * </pre>
  **/
 public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node> ,Comparable<Node> */{
@@ -40,26 +40,26 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
     //      adjacencyList = { (key,value) | (key!=null)^(value!=null) }.
     //      key is generic type and value is a HashSet containing the same type.
 
-      
+
     private void checkRep(){
         assert adjacencyList != null:
-				"adjacencyList is null";
+                "adjacencyList is null";
 
-		for (Node node : adjacencyList.keySet()){
-			assert node!=null:
-					"null node found in adjacencyList keys";
+        for (Node node : adjacencyList.keySet()){
+            assert node!=null:
+                    "null node found in adjacencyList keys";
         }
-        
+
         for (Set<Node> set : adjacencyList.values() ){
-			assert set!=null : "null set-of-edges found in adjacencyList values";
+            assert set!=null : "null set-of-edges found in adjacencyList values";
             for(Node node : set){
                 assert node!=null : "null dest-node found in a set of edges";
             }
         }
-        
-        
+
+
         for (Node sourceNode : adjacencyList.keySet()){
-			for( Node otherSource : adjacencyList.keySet() ){
+            for( Node otherSource : adjacencyList.keySet() ){
                 if (otherSource!=sourceNode){
                     assert !otherSource.equals(sourceNode) : "two nodes are the same";
                 }
@@ -77,10 +77,10 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
 
 
     private final Map<Node, Set<Node>> adjacencyList = new HashMap<>();
-    
-    
-    
-    
+
+
+
+
     //private final String name;
     // //add the C'tor if more fields are added
     // public Graph(String name){
@@ -90,11 +90,11 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
 
 
 
-     /**
-	 * Adds a new vertex to the graph if it isn't already exists.
-	 * 
-	 * @param node - an immutable generic type of vertex
-	 * @return false if node==null, true otherwise.
+    /**
+     * Adds a new vertex to the graph if it isn't already exists.
+     *
+     * @param node - an immutable generic type of vertex
+     * @return false if node==null, true otherwise.
      * @requires an immutable node
      * @effects puts a vertex in the graph with no edges
      *
@@ -112,10 +112,10 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
 
     /**
      * Adds a new edge to the graph if it isn't already exists.
-     * 
-     * @param parentNode - an immutable generic type of source vertex     
-     * @param childNode - an immutable generic type of destination vertex   
-     * @return false if (parentNode==null || childNode==null) , 
+     *
+     * @param parentNode - an immutable generic type of source vertex
+     * @param childNode - an immutable generic type of destination vertex
+     * @return false if (parentNode==null || childNode==null) ,
      *         true otherwise.
      * @requires immutable parentNode, immutable childNode.
      * @effects conects parentNode to childNode (and put either one
@@ -131,7 +131,7 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
         return true;
     }
 
-    
+
 
     /**
      * gets all the vertices that exists in this Graph
@@ -147,13 +147,13 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
     }
 
 
-    
+
     /**
      * Adds a new edge to the graph if it isn't already exists.
-     * 
-     * @param parentNode - an immutable generic type of source vertex     
-     * @param childNode - an immutable generic type of destination vertex   
-     * @return false if (parentNode==null || childNode==null) , 
+     *
+     * @param parentNode - an immutable generic type of source vertex
+     * @param childNode - an immutable generic type of destination vertex
+     * @return false if (parentNode==null || childNode==null) ,
      *         true otherwise.
      * @requires immutable parentNode, immutable childNode.
      * @effects conects parentNode to childNode (and put either one
@@ -170,13 +170,13 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
 
     /**
      * bla...bla...bla
-     * 
-     * @param sourceNodes - todo  
+     *
+     * @param sourceNodes - todo
      * @param destNodes - todo
      * @return todo
      * @requires todo
      * @effects todo
-     * 
+     *
      */
     public Set<Node> findShortestPath(Set<Node> sourceNodes, Set<Node> destNodes){
         checkRep();
@@ -212,7 +212,7 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
     // //testing the graph minimally
     // public static void main(String[] args){
     //     Graph<String> g1 = new Graph<>();
-    //     assert( g1.addNode( null )==false ) 
+    //     assert( g1.addNode( null )==false )
     //     : "null-problem with node insertion";
 
     //     for(int i=0 ; i < 5 ; i++){
@@ -223,7 +223,7 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
     //     for(int i=0 ; i < 5 ; i++){
     //         g1.addNode( String.valueOf(i) );
     //         for(int j=0 ; j<i ; j++){
-    //             assert (g1.getChildren(String.valueOf(i)).contains(String.valueOf(j))) 
+    //             assert (g1.getChildren(String.valueOf(i)).contains(String.valueOf(j)))
     //             : "node insertion overrides edges";
     //         }
     //     }
