@@ -7,21 +7,21 @@ import java.util.Map;
 import java.util.Set;
 /**
  * A Graph is a a collection of nodes. some of the nodes could be connected
- * by edges, and also each edge has a direction. the Graph is mutable, but it's
- * Node's are muttable, and each one of them has an exclusive identifier, meaning
- * there arn't any pair of identical nodes exists in the Graph.
+ * by edges, and in addition each edge has a direction (a directed graph).
+ * the Graph is mutable, but it's Nodes are muttable, and each one of them has an exclusive
+ * identifier, meaning there arn't any pair of identical nodes exists in the Graph.
  * <p>
  * Graph has'nt got 2 edges that are identical.
- * meaning that 2 edges can connect the same nodes,
- * but in the oppesite direction.
+ * meaning that 2 edges might connect the same 2 vertices,
+ * but only in the oppesite direction (No parallel edges).
  * <p>
  * <b>Implementation description</b>:<br>
  * an adjacency-List is the data-Structure used for representing
- * the graph. hence the class is very convinent for most algorithems.
+ * the graph, hence the class is very convinent for most algorithems.
  * <p>
  * <b>The following fields are used in the specification:</b>
  * <pre>
- *  adjacencyList : a dictionary in which the Key uniqe vertex V of the graph.
+ *  adjacencyList : a dictionary in which the Key is a uniqe vertex V of the graph.
  *  the value is a collection of all the vertices U such that the edge V->U exists.
  *  
  * </pre>
@@ -108,12 +108,6 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
     }
 
 
-    /**
-  	 * Adds a new edge to the graph if there isn't such edge allready.
-     * @requires immutable node
-     * @effects 
-     * @throws
-     */
 
 
     /**
@@ -137,6 +131,7 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
         return true;
     }
 
+    
 
     /**
      * gets all the vertices that exists in this Graph
