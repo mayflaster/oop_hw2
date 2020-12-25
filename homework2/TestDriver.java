@@ -113,11 +113,11 @@ public class TestDriver {
   		
 
 		Graph<WeightedNode> graph = new Graph<WeightedNode>();
-  		if(graphs.putIfAbsent(graphName, graph) == null){
+  		if(graphs.putIfAbsent(graphName, graph) != null){
   			output.println("graph " + graphName + " already exist");
 		}
   		else {
-			output.println("created graph" + graphName);
+			output.println("created graph " + graphName);
 		}
 
 
@@ -142,11 +142,11 @@ public class TestDriver {
  	private void createNode(String nodeName, String cost) {
 
   		WeightedNode node = new WeightedNode(nodeName,Integer.parseInt(cost));
-		if (nodes.putIfAbsent(nodeName,node) == null){
-			output.println("node " + nodeName + "already exist");
+		if (nodes.putIfAbsent(nodeName,node) != null){
+			output.println("node " + nodeName + " already exist");
 		}
 		else {
-			output.println("created node" + nodeName + "with cost" + cost );
+			output.println("created node " + nodeName + " with cost " + cost );
 		}
 
  		// TODO:
@@ -178,11 +178,14 @@ public class TestDriver {
 			return;
 		}
 		if ( node == null ) {
-			output.println("node" + nodeName + "does not exist" );
+			output.println("node " + nodeName + " does not exist" );
 			return;
 		}
-		g.addNode(node);
-		output.println("added node" + nodeName + "to" + g);
+		if (!g.addNode(node)){
+			output.println("failed to add node " + nodeName + " to " + graphName);
+			return;
+		}
+		output.println("added node " + nodeName + " to " + graphName);
 
   		// TODO: errors: graph/node not exist
 		// cant add node to the graph
@@ -211,8 +214,11 @@ public class TestDriver {
 		Graph<WeightedNode> g = graphs.get(graphName);
 		WeightedNode parentNode = nodes.get(parentName);
 		WeightedNode childNode  = nodes.get(childName);
-		g.addEdge(parentNode,childNode);
-		output.println("added edge from"+ parentName + "to" + childName + "in" + graphName);
+		if(!g.addEdge(parentNode,childNode)) {
+			output.println("failed to add edge from "+ parentName + " to " + childName + " in " + graphName);
+			return;
+		}
+		output.println("added edge from "+ parentName + " to " + childName + " in " + graphName);
 
 		// TODO: errors: graph/node not exist in maps,
 		// one of the nodes does not exist
@@ -250,7 +256,7 @@ public class TestDriver {
 
 		List<String> sortedList =toStringList(gNodes);
 
-		StringBuilder s = new StringBuilder(graphName + " contains");
+		StringBuilder s = new StringBuilder(graphName + " contains:");
 		for (String name: sortedList) {
 			s.append(" ");
 			s.append(name);
@@ -288,6 +294,9 @@ public class TestDriver {
 			return;
 		}
 		Set<WeightedNode> parentChildren= g.getChildren(parentNode);
+		if (parentChildren==null){
+			output.println("failed to get " +parentName+ "list of children in " + graphName +". node does not exist. " );
+		}
 		List<String> sortedList =toStringList(parentChildren);
 
 		StringBuilder s = new StringBuilder( "the children of " + parentName + " in " + graphName + " are:" );

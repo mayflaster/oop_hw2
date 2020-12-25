@@ -1,0 +1,28 @@
+
+created graph A
+created node n1 with cost 10
+created node n2 with cost 5
+added node n1 to A
+added node n2 to A
+added edge from n2 to n1 in A
+added edge from n1 to n2 in A
+failed to add edge from n1 to n2 in A
+added edge from n1 to n1 in A
+failed to add edge from n2 to n1 in A
+the children of n1 in A are: n1 n2
+the children of n2 in A are: n1
+
+created node n3 with cost 1
+added edge from n3 to n1 in A
+
+created node n4 with cost 5
+created node n5 with cost 6
+added edge from n4 to n5 in A
+added edge from n1 to n5 in A
+
+A contains: n1 n2 n3 n4 n5
+the children of n1 in A are: n1 n2 n5
+the children of n3 in A are: n1
+the children of n4 in A are: n5
+the children of n5 in A are:
+

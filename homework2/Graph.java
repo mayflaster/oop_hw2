@@ -26,7 +26,7 @@ import java.util.Set;
  *
  * </pre>
  **/
-public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node> ,Comparable<Node> */{
+public class Graph<N/* extends Comparable<Node>*/> /*implements Iterable<Node> ,Comparable<Node> */{
 
     // Abstraction Function:
     //      Graph represents vertices and edges that conects those edges.
@@ -45,27 +45,27 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
         assert adjacencyList != null:
                 "adjacencyList is null";
 
-        for (Node node : adjacencyList.keySet()){
+        for (N node : adjacencyList.keySet()){
             assert node!=null:
                     "null node found in adjacencyList keys";
         }
 
-        for (Set<Node> set : adjacencyList.values() ){
+        for (Set<N> set : adjacencyList.values() ){
             assert set!=null : "null set-of-edges found in adjacencyList values";
-            for(Node node : set){
+            for(N node : set){
                 assert node!=null : "null dest-node found in a set of edges";
             }
         }
 
 
-        for (Node sourceNode : adjacencyList.keySet()){
-            for( Node otherSource : adjacencyList.keySet() ){
+        for (N sourceNode : adjacencyList.keySet()){
+            for( N otherSource : adjacencyList.keySet() ){
                 if (otherSource!=sourceNode){
                     assert !otherSource.equals(sourceNode) : "two nodes are the same";
                 }
             }
-            for(Node dest : adjacencyList.get(sourceNode)){
-                for( Node otherDest : adjacencyList.keySet() ){
+            for(N dest : adjacencyList.get(sourceNode)){
+                for( N otherDest : adjacencyList.keySet() ){
                     if (otherDest!=dest){
                         assert !dest.equals(otherDest) : "two nodes are the same";
                     }
@@ -76,7 +76,7 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
     }
 
 
-    private final Map<Node, Set<Node>> adjacencyList = new HashMap<>();
+    private final Map<N, Set<N>> adjacencyList = new HashMap<>();
 
 
 
@@ -94,15 +94,19 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
      * Adds a new vertex to the graph if it isn't already exists.
      *
      * @param node - an immutable generic type of vertex
-     * @return false if node==null, true otherwise.
      * @requires an immutable node
+     * @modifies this
      * @effects puts a vertex in the graph with no edges
+     *  and return false if node==null,or if node is already in the graph, and true otherwise.
      *
      */
-    public boolean addNode(Node node) {
+    public boolean addNode(N node) {
         checkRep();
         if(node==null) return false;
-        adjacencyList.putIfAbsent(node, new HashSet<>());
+        if (adjacencyList.putIfAbsent(node, new HashSet<>())!=null){
+            checkRep();
+            return false;
+        }
         checkRep();
         return true;
     }
@@ -115,18 +119,23 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
      *
      * @param parentNode - an immutable generic type of source vertex
      * @param childNode - an immutable generic type of destination vertex
-     * @return false if (parentNode==null || childNode==null) ,
-     *         true otherwise.
+     *
      * @requires immutable parentNode, immutable childNode.
-     * @effects conects parentNode to childNode (and put either one
-     *          of them in the graph also if needed)
+     * @modifies this
+     * @effects connects parentNode to childNode (and put either one
+     *          of them in the graph also if needed) and return false if (parentNode==null || childNode==null),
+     *          or if there is already an edge from parentNode to childNode, true otherwise.
+     *
      */
-    public boolean addEdge(Node parentNode, Node childNode){
+    public boolean addEdge(N parentNode, N childNode){
         checkRep();
         if(parentNode==null && childNode==null) return false;
         addNode(parentNode);
         addNode(childNode);
-        adjacencyList.get(parentNode).add(childNode);
+        if(!adjacencyList.get(parentNode).add(childNode)){
+            checkRep();
+            return false;
+        }
         checkRep();
         return true;
     }
@@ -139,9 +148,9 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
      * @return a Set containing every vertex Element in the Graph
      *         (an empty Set if the Graph is empty)
      */
-    public Set<Node> getNodes(){
+    public Set<N> getNodes(){
         checkRep();
-        Set<Node> allNodes = Collections.unmodifiableSet( adjacencyList.keySet() );
+        Set<N> allNodes = Collections.unmodifiableSet( adjacencyList.keySet() );
         checkRep();
         return allNodes;
     }
@@ -149,19 +158,17 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
 
 
     /**
-     * Adds a new edge to the graph if it isn't already exists.
-     *
-     * @param parentNode - an immutable generic type of source vertex
-     * @param childNode - an immutable generic type of destination vertex
-     * @return false if (parentNode==null || childNode==null) ,
-     *         true otherwise.
-     * @requires immutable parentNode, immutable childNode.
-     * @effects conects parentNode to childNode (and put either one
-     *          of them in the graph also if needed)
+     * @requires immutable Node.
+     * @return a Set containing every vertex Element that the parent node has edges to.
+     *         (an empty Set if the the node has no edges out of him)
+     *         null if the graph does not contains the parent node
      */
-    public Set<Node> getChildren(Node parent){
+    public Set<N> getChildren(N parent){
         checkRep();
-        Set<Node> allChildren = Collections.unmodifiableSet( adjacencyList.get(parent) );
+        if (!adjacencyList.containsKey(parent)){
+            return null;
+        }
+        Set<N> allChildren = Collections.unmodifiableSet( adjacencyList.get(parent) );
         checkRep();
         return allChildren;
     }
@@ -173,17 +180,18 @@ public class Graph<Node/* extends Comparable<Node>*/> /*implements Iterable<Node
      *
      * @param sourceNodes - todo
      * @param destNodes - todo
-     * @return todo
      * @requires todo
      * @effects todo
      *
      */
-    public Set<Node> findShortestPath(Set<Node> sourceNodes, Set<Node> destNodes){
+    public Set<N> findShortestPath(Set<N> sourceNodes, Set<N> destNodes){
         checkRep();
         //Todo
         checkRep();
-        return new HashSet<Node>();
+        return new HashSet<N>();
     }
+
+
 
 
 
