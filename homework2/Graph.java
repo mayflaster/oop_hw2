@@ -175,21 +175,6 @@ public class Graph<N/* extends Comparable<Node>*/> /*implements Iterable<Node> ,
 
 
 
-    /**
-     * bla...bla...bla
-     *
-     * @param sourceNodes - todo
-     * @param destNodes - todo
-     * @requires todo
-     * @effects todo
-     *
-     */
-    public Set<N> findShortestPath(Set<N> sourceNodes, Set<N> destNodes){
-        checkRep();
-        //Todo
-        checkRep();
-        return new HashSet<N>();
-    }
 
 
 
