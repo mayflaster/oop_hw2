@@ -380,22 +380,21 @@ public class TestDriver {
 		
 		PathFinder<WeightedNode,WeightedNodePath> finder = new PathFinder<>();
 		WeightedNodePath shortestPath = finder.findPath(g,sourceNodesPaths,destNodesPaths);
+		if(shortestPath == null){
+			output.println("no path found in " + graphName);
+		}
+		else {
+			Iterator<WeightedNode> iterator = shortestPath.iterator();
 
-		Iterator<WeightedNode> iterator = shortestPath.iterator();
+			StringBuilder s = new StringBuilder( "shortest path in " + graphName + ":");
 
-		StringBuilder s = new StringBuilder( "shortest path in " + graphName + ":");
+			do {
+				s.append(" ");
+				s.append(iterator.next().getName());
+			}while (iterator.hasNext());
 
-		do {
-			s.append(" ");
-			s.append(iterator.next().getName());
-		}while (iterator.hasNext());
-
-		output.println(s);
-
-
-		// TODO: graph/source/dest not exist here
-		// sources/dests not exist in the graph
-		// some problem in path..
+			output.println(s);
+		}
 		
   	}
 
