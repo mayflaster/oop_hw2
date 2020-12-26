@@ -357,28 +357,39 @@ public class TestDriver {
 			output.println("graph "+ graphName +" does not exist" );
 			return;
 		}
-		Set<WeightedNode> sourceNodes = new HashSet<>();
+		Set<WeightedNodePath> sourceNodesPaths = new HashSet<>();
 		for (String s: sourceArgs) {
-			if(nodes.get(s) == null){
+			WeightedNode nStart = nodes.get(s);
+			if(nStart == null){
 				output.println("node "+ s +" does not exist" );
 				return;
 			}
-			sourceNodes.add(nodes.get(s));
+			WeightedNodePath nodePath = new WeightedNodePath(nStart);
+			sourceNodesPaths.add(nodePath);
 		}
-		Set<WeightedNode> destNodes = new HashSet<>();
+		Set<WeightedNodePath> destNodesPaths = new HashSet<>();
 		for (String t: destArgs) {
-			if(nodes.get(t) == null){
+			WeightedNode nEnd = nodes.get(t);
+			if(nEnd == null){
 				output.println("node "+ t +" does not exist" );
 				return;
 			}
-			destNodes.add(nodes.get(t));
+			WeightedNodePath nodePath = new WeightedNodePath(nEnd);
+			destNodesPaths.add(nodePath);
 		}
-		Set<WeightedNode> path = g.findShortestPath(sourceNodes,destNodes);; // probably will be list and not set!
+		
+		PathFinder<WeightedNode,WeightedNodePath> finder = new PathFinder<>();
+		WeightedNodePath shortestPath = finder.findPath(g,sourceNodesPaths,destNodesPaths);
+
+		Iterator<WeightedNode> iterator = shortestPath.iterator();
+
 		StringBuilder s = new StringBuilder( "shortest path in " + graphName + ":");
-		for (WeightedNode n : path){
+
+		do {
 			s.append(" ");
-			s.append(n.getName());
-		}
+			s.append(iterator.next().getName());
+		}while (iterator.hasNext());
+
 		output.println(s);
 
 
