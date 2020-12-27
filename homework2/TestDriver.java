@@ -253,6 +253,7 @@ public class TestDriver {
 			return;
 		}
 		Set<WeightedNode> gNodes = g.getNodes();
+		//handel no-nodes (empy set)
 
 		List<String> sortedList =toStringList(gNodes);
 
