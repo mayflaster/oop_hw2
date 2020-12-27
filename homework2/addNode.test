@@ -1,6 +1,8 @@
+
 CreateNode n1 10
 CreateGraph A
 AddNode A n1
+
 AddNode A n1
 CreateNode n2 5
 AddNode A n2

@@ -26,7 +26,12 @@ import java.util.Set;
  *
  * </pre>
  **/
-public class Graph<N/* extends Comparable<Node>*/> /*implements Iterable<Node> ,Comparable<Node> */{
+public class Graph<N/* extends Comparable<N>*/> /*implements Iterable<Node> ,Comparable<Node> */{
+    
+    private final Map<N, Set<N>> adjacencyList = new HashMap<>();
+    //public enum result { SUCSSESS,FAIL,ALREADY_EXIST};
+
+
 
     // Abstraction Function:
     //      Graph represents vertices and edges that conects those edges.
@@ -76,7 +81,6 @@ public class Graph<N/* extends Comparable<Node>*/> /*implements Iterable<Node> ,
     }
 
 
-    private final Map<N, Set<N>> adjacencyList = new HashMap<>();
 
 
 

@@ -1,0 +1,24 @@
+
+CreateGraph A
+ListNodes A
+
+CreateNode n1 10
+AddNode A n1
+ListNodes A
+
+CreateNode n2 20
+AddNode A n2
+ListNodes A 
+
+CreateNode n3 30
+AddEdge A n2 n3 
+ListNodes A 
+
+
+
+CreateNode n4 40
+CreateNode n5 50
+AddEdge A n4 n5
+CreateNode n1 30
+ListNodes A
+
