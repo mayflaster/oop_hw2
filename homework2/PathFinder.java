@@ -18,22 +18,22 @@ public class PathFinder<N,P extends Path<N,P>> {
      */
     P findPath (Graph<N> g, Set<P> starts,  Set<P> goals){
 
-        Map<N,P> paths= new HashMap<>(); // map degenerated path that represent a node to a shortest path to this node.
-        PriorityQueue<N> active = new PriorityQueue<>();
+        Map<Node<N>,P> paths= new HashMap<>(); // map degenerated path that represent a node to a shortest path to this node.
+        PriorityQueue<Node<N>> active = new PriorityQueue<>();
         for(P start:starts){
-            N pathNode = new Node<>(start.getEnd(),start.getCost());
+            Node<N> pathNode = new Node<>(start.getEnd(),start.getCost());
             active.add(pathNode);
             paths.putIfAbsent(pathNode,start);
         }
-        Set<N> goalsNodesPaths = new HashSet<>();
+        Set<Node<N>> goalsNodesPaths = new HashSet<>();
         for(P goal: goals){
-            N pathNode = new Node<>(goal.getEnd(),goal.getCost());
+            Node<N> pathNode = new Node<>(goal.getEnd(),goal.getCost());
             goalsNodesPaths.add(pathNode);
         }
 
-        Set<N> finished = new HashSet<>();
+        Set<Node<N>> finished = new HashSet<>();
 
-        N queueMin;
+        Node<N> queueMin;
         P queueMinPath;
         while (active.size() != 0){
             queueMin = active.poll();
@@ -46,7 +46,7 @@ public class PathFinder<N,P extends Path<N,P>> {
             if (children == null) continue;
             for(N child: children){
                 P updatedPath=queueMinPath.extend(child);
-                N childNodePath = new Node<>(child,updatedPath.getCost());
+                Node<N> childNodePath = new Node<>(child,updatedPath.getCost());
                 if(!active.contains(childNodePath) && !finished.contains(childNodePath) ){
                     paths.put(childNodePath,updatedPath);
                     active.add(childNodePath);
