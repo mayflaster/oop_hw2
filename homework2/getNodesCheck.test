@@ -11,14 +11,14 @@ AddNode A n2
 ListNodes A 
 
 CreateNode n3 30
+AddNode A n3
 AddEdge A n2 n3 
 ListNodes A 
 
 
-
 CreateNode n4 40
 CreateNode n5 50
+AddNode A n4
+AddNode A n5
 AddEdge A n4 n5
-CreateNode n1 30
 ListNodes A
-

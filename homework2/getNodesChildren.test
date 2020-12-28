@@ -6,9 +6,21 @@ AddNode A n1
 ListChildren A n1
 
 CreateNode n2 20
-AddEdge A n1 n2 
+ListChildren A n2
+AddNode A n2
+AddEdge A n1 n2
 ListChildren A n1
 
+AddEdge A n1 n1
+AddEdge A n2 n2
 
+ListChildren A n1
+ListChildren A n2
 
-
+CreateNode a1 50
+CreateNode a2 60
+AddNode A a1
+AddNode A a2
+AddEdge A n1 a2
+AddEdge A n1 a1
+ListChildren A n1

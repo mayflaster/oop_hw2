@@ -1,0 +1,27 @@
+CreateNode n1 5
+CreateNode n2 10
+CreateNode n3 1
+CreateGraph A
+AddNode A n1
+AddNode A n2 
+AddNode A n3
+AddEdge A n3 n1 
+AddEdge A n1 n3
+AddEdge A n1 n2
+ListNodes A
+ListChildren A n1
+AddEdge A n3 n3
+ListChildren A n3
+FindPath A n3 -> n2
+
+AddEdge A n3 n2
+FindPath A n3 -> n2
+
+FindPath A n2 -> n1
+FindPath A n3 n1 -> n1 n2
+
+CreateNode n4 40
+FindPath A n4 -> n1
+FindPath A n1 -> n4
+
+FindPath A n3 n1 -> n3 n2

@@ -1,7 +1,5 @@
 package homework2;
 
-import org.w3c.dom.Node;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -219,12 +217,12 @@ public class TestDriver {
 		}
 		if(result == Graph.result.NODE_FAIL){
 			output.println("failed to add edge from "+ parentName + " to " + childName + " in " + graphName +
-					": one of the nodes already exist ");
+					": one of the nodes does not exist");
 			return;
 		}
 		if(result == Graph.result.EDGE_ALREADY_EXIST ) {
 			output.println("failed to add edge from "+ parentName + " to " + childName + " in " + graphName +
-					": edge already exists");
+					": edge already exist");
 			return;
 		}
 		output.println("added edge from "+ parentName + " to " + childName + " in " + graphName);
@@ -301,7 +299,8 @@ public class TestDriver {
 		}
 		Set<WeightedNode> parentChildren= g.getChildren(parentNode);
 		if (parentChildren==null){
-			output.println("failed to get " +parentName+ "list of children in " + graphName +". node does not exist. " );
+			output.println("failed to get " +parentName+ " list of children in " + graphName +": node does not exist" );
+			return;
 		}
 		List<String> sortedList =toStringList(parentChildren);
 
@@ -351,6 +350,15 @@ public class TestDriver {
     	findPath(graphName, sourceArgs, destArgs);
   	}
 
+  	private boolean checkGraphNodes(Graph<WeightedNode> g){
+  		for(WeightedNode node:g.getNodes() ){
+  			if (node.getCost() < 0){
+  				return false;
+			}
+		}
+  		return true;
+	}
+
 
   	private void findPath(String graphName, List<String> sourceArgs,
   						  List<String> destArgs) {
@@ -381,7 +389,11 @@ public class TestDriver {
 			WeightedNodePath nodePath = new WeightedNodePath(nEnd);
 			destNodesPaths.add(nodePath);
 		}
-		
+
+		if( !checkGraphNodes(g)) {
+			output.println("find path failed in " + graphName + ": node with negative cost in the graph");
+			return;
+		}
 		PathFinder<WeightedNode,WeightedNodePath> finder = new PathFinder<>();
 		WeightedNodePath shortestPath = finder.findPath(g,sourceNodesPaths,destNodesPaths);
 		if(shortestPath == null){
@@ -389,9 +401,7 @@ public class TestDriver {
 		}
 		else {
 			Iterator<WeightedNode> iterator = shortestPath.iterator();
-
 			StringBuilder s = new StringBuilder( "shortest path in " + graphName + ":");
-
 			do {
 				s.append(" ");
 				s.append(iterator.next().getName());

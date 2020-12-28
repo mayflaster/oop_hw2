@@ -6,19 +6,21 @@ added node n1 to A
 the children of n1 in A are:
 
 created node n2 with cost 20
+failed to get n2 list of children in A: node does not exist
 added node n2 to A
 added edge from n1 to n2 in A
 the children of n1 in A are: n2
-.
-.
-.
-.
-.
-..
 
-.
+added edge from n1 to n1 in A
+added edge from n2 to n2 in A
 
+the children of n1 in A are: n1 n2
+the children of n2 in A are: n2
 
-
-
-
+created node a1 with cost 50
+created node a2 with cost 60
+added node a1 to A
+added node a2 to A
+added edge from n1 to a2 in A
+added edge from n1 to a1 in A
+the children of n1 in A are: a1 a2 n1 n2
