@@ -198,7 +198,7 @@ public class GraphTests extends ScriptFileTests {
 	@Test
 	public void getChildrenCheck(){
 		Graph<WeightedNode> g = new Graph<>();
-		WeightedNode[] arr = new WeightedNode[0];
+		WeightedNode[] arr = new WeightedNode[4];
 		for(int i=0 ; i<4 ; ++i){
 			arr[i] = new WeightedNode(Integer.toString(i),i);
 			g.addNode(arr[i]);
@@ -211,10 +211,7 @@ public class GraphTests extends ScriptFileTests {
 		}
 	}
 
-
-
-
-
+//=======================================================================
 
 
 }
