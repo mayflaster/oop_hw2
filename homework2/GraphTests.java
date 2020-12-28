@@ -14,6 +14,7 @@ public class GraphTests extends ScriptFileTests {
 		super(testFile);
 	}
 
+	/*
 	@Test
 	public void test1(){
 		//assert all kind of shit
@@ -33,6 +34,6 @@ public class GraphTests extends ScriptFileTests {
 	v@Test
 	public void test5(){
 		//assert all kind of shit
-	}
+	}*/
 
 }

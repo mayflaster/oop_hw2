@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 /**
  * A Graph is a a collection of nodes. some of the nodes could be connected
- * by edges, and in addition each edge has a direction (a directed graph).
+ * by edges, and in addition each edge has a direction (an oriented graph).
  * the Graph is mutable, but it's Nodes are muttable, and each one of them has an exclusive
  * identifier, meaning there arn't any pair of identical nodes exists in the Graph.
  * <p>
@@ -27,9 +27,9 @@ import java.util.Set;
  * </pre>
  **/
 public class Graph<N/* extends Comparable<N>*/> /*implements Iterable<Node> ,Comparable<Node> */{
-    
+
     private final Map<N, Set<N>> adjacencyList = new HashMap<>();
-    //public enum result { SUCSSESS,FAIL,ALREADY_EXIST};
+    public enum result {SUCSSESS,NULL_ARG,NODE_ALREADY_EXIST,EDGE_ALREADY_EXIST,NODE_FAIL};
 
 
 
@@ -97,51 +97,53 @@ public class Graph<N/* extends Comparable<N>*/> /*implements Iterable<Node> ,Com
     /**
      * Adds a new vertex to the graph if it isn't already exists.
      *
-     * @param node - an immutable generic type of vertex
-     * @requires an immutable node
-     * @modifies this
-     * @effects puts a vertex in the graph with no edges
-     *  and return false if node==null,or if node is already in the graph, and true otherwise.
+     * @param node - an immutable generic type of vertex.
+     * @requires an immutable node.
+     * @modifies this.
+     * @effects making sure an existance of node in the graph.
+     * @return SUCSSESS in case the node added to the graph,
+     *         NODE_ALREADY_EXIST if a similar node is in the graph,
+     *         NULL_ARG if node==nul
      *
      */
-    public boolean addNode(N node) {
+    public result addNode(N node) {
         checkRep();
-        if(node==null) return false;
+        if(node==null) return result.NULL_ARG;
         if (adjacencyList.putIfAbsent(node, new HashSet<>())!=null){
             checkRep();
-            return false;
+            return result.NODE_ALREADY_EXIST;
         }
         checkRep();
-        return true;
+        return result.SUCSSESS;
     }
 
 
 
 
     /**
-     * Adds a new edge to the graph if it isn't already exists.
+     * Adds a new edge to the graph in-between 2 nodes if it isn't already exists.
      *
      * @param parentNode - an immutable generic type of source vertex
      * @param childNode - an immutable generic type of destination vertex
      *
      * @requires immutable parentNode, immutable childNode.
      * @modifies this
-     * @effects connects parentNode to childNode (and put either one
-     *          of them in the graph also if needed) and return false if (parentNode==null || childNode==null),
-     *          or if there is already an edge from parentNode to childNode, true otherwise.
+     * @effects connects some parentNode P to some childNode C in the graph: P-->C
+     * @return SUCSSESS in case the edge added to the graph,
+     *         NODE_ALREADY_EXIST if a similar node is in the graph,
+     *         NULL_ARG if (parentNode==null || childNode==null)
      *
      */
-    public boolean addEdge(N parentNode, N childNode){
+    public result addEdge(N parentNode, N childNode){
         checkRep();
-        if(parentNode==null && childNode==null) return false;
-        addNode(parentNode);
-        addNode(childNode);
+        if(parentNode==null && childNode==null) return result.NULL_ARG;
+        if( adjacencyList.get(parentNode)==null || adjacencyList.get(childNode)==null ) return result.NODE_FAIL;
         if(!adjacencyList.get(parentNode).add(childNode)){
             checkRep();
-            return false;
+            return result.EDGE_ALREADY_EXIST;
         }
         checkRep();
-        return true;
+        return result.SUCSSESS;
     }
 
 

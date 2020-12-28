@@ -181,16 +181,12 @@ public class TestDriver {
 			output.println("node " + nodeName + " does not exist" );
 			return;
 		}
-		if (!g.addNode(node)){
+		if (g.addNode(node) == Graph.result.NODE_ALREADY_EXIST) {
 			output.println("failed to add node " + nodeName + " to " + graphName);
 			return;
 		}
 		output.println("added node " + nodeName + " to " + graphName);
 
-  		// TODO: errors: graph/node not exist
-		// cant add node to the graph
-
-  		
   	}
 
 
@@ -214,14 +210,27 @@ public class TestDriver {
 		Graph<WeightedNode> g = graphs.get(graphName);
 		WeightedNode parentNode = nodes.get(parentName);
 		WeightedNode childNode  = nodes.get(childName);
-		if(!g.addEdge(parentNode,childNode)) {
-			output.println("failed to add edge from "+ parentName + " to " + childName + " in " + graphName);
+		if(g == null){
+			output.println("graph " + graphName + " does not exist");
+			return;
+		}
+		Graph.result result = g.addEdge(parentNode,childNode);
+		if(result == Graph.result.NULL_ARG){
+			output.println("failed to add edge from "+ parentName + " to " + childName + " in " + graphName +
+					": null argument sent");
+			return;
+		}
+		if(result == Graph.result.NODE_FAIL){
+			output.println("failed to add edge from "+ parentName + " to " + childName + " in " + graphName +
+					": one of the nodes already exist ");
+			return;
+		}
+		if(result == Graph.result.EDGE_ALREADY_EXIST ) {
+			output.println("failed to add edge from "+ parentName + " to " + childName + " in " + graphName +
+					": edge already exists");
 			return;
 		}
 		output.println("added edge from "+ parentName + " to " + childName + " in " + graphName);
-
-		// TODO: errors: graph/node not exist in maps,
-		// one of the nodes does not exist
 
   	}
 
