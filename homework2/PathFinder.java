@@ -12,9 +12,9 @@ public class PathFinder<N,P extends Path<N,P>> {
 
     /**
      *
-     * @requires starts != null && goals != null
+     * @requires g != null && starts != null && goals != null
      * @return find a path from one of the start nodes to one of the goal nodes,
-     * with minimal weight.null if there is no such path.
+     * with minimal weight.null if there is no such path or if starts or goals are empty.
      */
     P findPath (Graph<N> g, Set<P> starts,  Set<P> goals){
 

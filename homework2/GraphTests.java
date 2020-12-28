@@ -1,6 +1,9 @@
 package homework2;
 
+import static org.junit.Assert.*;
+
 import jdk.jfr.Timestamp;
+import org.junit.Test;
 
 /**
  * This class contains a set of test cases that can be used to test the graph
@@ -14,7 +17,7 @@ public class GraphTests extends ScriptFileTests {
 		super(testFile);
 	}
 
-	/*
+
 	@Test
 	public void test1(){
 		//assert all kind of shit
@@ -31,9 +34,9 @@ public class GraphTests extends ScriptFileTests {
 	public void test4(){
 		//assert all kind of shit
 	}
-	v@Test
+	@Test
 	public void test5(){
 		//assert all kind of shit
-	}*/
+	}
 
 }

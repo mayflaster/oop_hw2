@@ -16,7 +16,6 @@ import java.util.Collections;
 public class TestDriver {
 
 	// String -> Graph: maps the names of graphs to the actual graph
-	// TODO: Parameterize the next line correctly.
   	private final Map<String,Graph<WeightedNode>> graphs = new HashMap<>();
   	// String -> WeightedNode: maps the names of nodes to the actual node
   	private final Map<String,WeightedNode> nodes = new HashMap<>();
@@ -121,8 +120,6 @@ public class TestDriver {
 		}
 
 
-		//TODO:  graph already exist
-		// graphName empty/null
 
   	}
  
@@ -273,8 +270,7 @@ public class TestDriver {
 		}
 		output.println(s);
 
-  		
-  		// TODO: g not exist ?
+
 
 
   	}
@@ -315,8 +311,6 @@ public class TestDriver {
 			s.append(name);
 		}
 		output.println(s);
-		// TODO: graph/node not exist
-		// node not exist on graph
   		
   	}
 
